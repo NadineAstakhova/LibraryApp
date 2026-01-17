@@ -19,15 +19,20 @@ services:
       DB_DATABASE: library_app
       DB_USERNAME: admin
       DB_PASSWORD: thebestpassword8
+
+  nginx:
+    image: nginx:alpine
+    container_name: library_nginx
+    restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "8000:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - db
-    command: >
-      sh -c "
-        composer install --no-interaction --optimize-autoloader &&
-        php artisan serve --host=0.0.0.0 --port=8000
-      "
+      - app
+    networks:
+      - laravel
 
   db:
     image: mysql:8.1

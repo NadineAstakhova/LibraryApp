@@ -25,5 +25,5 @@ WORKDIR /var/www/html
 # Copy php.ini customizations
 COPY ./docker/app/php.ini /usr/local/etc/php/conf.d/custom.ini
 
-EXPOSE 8000
+EXPOSE 9000
 CMD ["php-fpm"]

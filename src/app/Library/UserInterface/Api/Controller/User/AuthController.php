@@ -4,9 +4,11 @@ namespace App\Library\UserInterface\Api\Controller\User;
 
 use App\Http\Controllers\Controller;
 use App\Library\Application\User\DTOs\LoginDTO;
+use App\Library\Application\User\DTOs\RegisterUserDTO;
 use App\Library\Application\User\Exceptions\LoginException;
 use App\Library\Application\User\Services\AuthService;
 use App\Library\UserInterface\Api\Requests\User\LoginRequest;
+use App\Library\UserInterface\Api\Requests\User\RegisterRequest;
 use App\Library\UserInterface\Base\ApiResponseJson;
 use Illuminate\Http\JsonResponse;
 
@@ -15,6 +17,23 @@ class AuthController extends Controller
     public function __construct(
         private readonly AuthService $authService
     ) {}
+
+    public function register(RegisterRequest $request): JsonResponse
+    {
+        $userRegisterDto = new RegisterUserDTO(
+            name: $request->input('name'),
+            email: $request->input('email'),
+            password: $request->input('password'),
+        );
+
+        try {
+            $result = $this->authService->register($userRegisterDto);
+
+            return ApiResponseJson::successJsonResponse('User registered successfully', $result);
+        } catch (\Exception $e) {
+            return ApiResponseJson::errorJsonResponse($e->getMessage(), 400);
+        }
+    }
 
     /**
      * @param \App\Library\UserInterface\Api\Requests\User\LoginRequest $request

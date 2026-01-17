@@ -18,7 +18,7 @@ class User
         ?int $id,
         string $name,
         string $email,
-        string $passwordHash,
+        string $passwordHash = '',
         string $role = 'user',
         ?DateTimeImmutable $createdAt = null,
         ?DateTimeImmutable $updatedAt = null

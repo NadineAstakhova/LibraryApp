@@ -17,6 +17,7 @@ class User extends Authenticatable implements JWTSubject
     protected $table = 'users';
 
     protected $fillable = [
+        'id', //todo change it. fast fix
         'name',
         'email',
         'password',
@@ -37,9 +38,9 @@ class User extends Authenticatable implements JWTSubject
     }
 
     // JWTSubject methods
-    public function getJWTIdentifier(): mixed
+    public function getJWTIdentifier(): string
     {
-        return $this->getKey();
+        return (string)$this->getKey();
     }
 
     public function getJWTCustomClaims(): array
@@ -47,7 +48,7 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    protected static function newFactory()
+    protected static function newFactory(): \Illuminate\Database\Eloquent\Factories\Factory|UserFactory
     {
         return UserFactory::new();
     }

@@ -27,6 +27,8 @@ return [
 
     'secret' => env('JWT_SECRET'),
 
+    'user' => App\Library\Infrastructure\Database\Models\User::class,
+
     /*
     |--------------------------------------------------------------------------
     | JWT Authentication Keys
