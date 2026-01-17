@@ -38,9 +38,6 @@ class AuthService
         ];
     }
 
-    /**
-     * @throws \App\Library\Application\User\Exceptions\LoginException
-     */
     public function logout(): void
     {
         auth('api')->logout();

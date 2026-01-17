@@ -16,6 +16,11 @@ class AuthController extends Controller
         private readonly AuthService $authService
     ) {}
 
+    /**
+     * @param \App\Library\UserInterface\Api\Requests\User\LoginRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(LoginRequest $request): JsonResponse
     {
         $userLoginDto = new LoginDTO(
@@ -36,29 +41,12 @@ class AuthController extends Controller
     }
 
     /**
-     * @throws \App\Library\Application\User\Exceptions\LoginException
+     * @return \Illuminate\Http\JsonResponse
      */
     public function logout(): JsonResponse
     {
-        \Log::info('Logout attempt', [
-            'user' => auth('api')->user(),
-            'guard' => auth('api')->check() ? 'authenticated' : 'not authenticated'
-        ]);
+        $this->authService->logout();
 
-        try {
-            $this->authService->logout();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Successfully logged out',
-            ]);
-        } catch (\Exception $e) {
-            \Log::error('Logout error: ' . $e->getMessage());
-
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ], 500);
-        }
+        return ApiResponseJson::successJsonResponse('Successfully logged out');
     }
 }
