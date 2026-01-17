@@ -2,35 +2,29 @@
 
 namespace App\Library\Domain\Book\Entities;
 
+use App\Library\Domain\Book\ValueObjects\ISBN;
+
 class Book
-{
-    private ?int $id;
-
-    private string $name;
-
-    private string $author; //for now, we don't have a separate Author entity, but better to have it
-
-    private string $genre; //for now, we don't have a separate Genre entity, but better to have it
-
-    private int $numberInLibrary;
-
-    public function __construct(?int $id, string $name, string $author, string $genre, int $numberInLibrary)
-    {
-        $this->id = $id;
-        $this->name = $name;
-        $this->author = $author;
-        $this->genre = $genre;
-        $this->numberInLibrary = $numberInLibrary;
-    }
+{public function __construct(
+        private ?int $id,
+        private string $title,
+        private string $author, //for now only one author. should be separate entity
+        private ISBN $isbn,
+        private string $genre,//for now only one genre. should be separate entity
+        private ?string $description,
+        private int $totalCopies,
+        private int $availableCopies,
+        private ?int $publicationYear,
+    ) {}
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): string
+    public function getTitle(): string
     {
-        return $this->name;
+        return $this->title;
     }
 
     public function getAuthor(): string
@@ -38,19 +32,49 @@ class Book
         return $this->author;
     }
 
+    public function getIsbn(): ISBN
+    {
+        return $this->isbn;
+    }
+
     public function getGenre(): string
     {
         return $this->genre;
     }
 
-    public function getNumberInLibrary(): int
+    public function getDescription(): ?string
     {
-        return $this->numberInLibrary;
+        return $this->description;
     }
 
-    public function setName(string $name): void
+    public function getTotalCopies(): int
     {
-        $this->name = $name;
+        return $this->totalCopies;
+    }
+
+    public function getAvailableCopies(): int
+    {
+        return $this->availableCopies;
+    }
+
+    public function getPublicationYear(): ?int
+    {
+        return $this->publicationYear;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function isAvailable(): bool
+    {
+        return $this->availableCopies > 0;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
     }
 
     public function setAuthor(string $author): void
@@ -58,13 +82,33 @@ class Book
         $this->author = $author;
     }
 
+    public function setIsbn(ISBN $isbn): void
+    {
+        $this->isbn = $isbn;
+    }
+
     public function setGenre(string $genre): void
     {
         $this->genre = $genre;
     }
 
-    public function setNumberInLibrary(int $numberInLibrary): void
+    public function setDescription(?string $description): void
     {
-        $this->numberInLibrary = $numberInLibrary;
+        $this->description = $description;
+    }
+
+    public function setPublicationYear(?int $publicationYear): void
+    {
+        $this->publicationYear = $publicationYear;
+    }
+
+    public function setAvailableCopies(int $availableCopies): void
+    {
+        $this->availableCopies = $availableCopies;
+    }
+
+    public function setTotalCopies(int $totalCopies): void
+    {
+        $this->totalCopies = $totalCopies;
     }
 }

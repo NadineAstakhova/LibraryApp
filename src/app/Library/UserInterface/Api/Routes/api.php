@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Library\UserInterface\Api\Controller\Book\BookController;
 use App\Library\UserInterface\Api\Controller\User\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,11 @@ Route::prefix('v1')->group(function () {
                 ->name('auth.logout');
         });
 
+
+
     });
+
+    Route::get('/books', [BookController::class, 'index'])
+        ->name('books.index');
 
 });
