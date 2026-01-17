@@ -27,7 +27,7 @@ return [
 
     'secret' => env('JWT_SECRET'),
 
-    'user' => App\Library\Infrastructure\Database\Models\User::class,
+    'user' => App\Library\Infrastructure\User\Database\Models\User::class,
 
     /*
     |--------------------------------------------------------------------------

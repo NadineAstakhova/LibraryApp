@@ -2,8 +2,7 @@
 
 namespace App\Library\Application\User\Services;
 
-use App\Library\Infrastructure\Database\Models\User as EloquentUser;
-use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Library\Infrastructure\User\Database\Models\User as EloquentUser;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class JWTService

@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 
-use App\Library\Infrastructure\Database\Models\User;
+use App\Library\Infrastructure\User\Database\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Library\Infrastructure\Exceptions;
+namespace App\Library\Infrastructure\User\Exceptions;
 
 class UserCreateException extends \Exception
 {

@@ -6,7 +6,7 @@ use App\Library\Application\User\DTOs\LoginDTO;
 use App\Library\Application\User\DTOs\RegisterUserDTO;
 use App\Library\Application\User\Exceptions\LoginException;
 use App\Library\Domain\User\Repositories\UserRepositoryInterface;
-use App\Library\Infrastructure\Database\Mappers\UserMapper;
+use App\Library\Infrastructure\User\Database\Mappers\UserMapper;
 use Illuminate\Support\Facades\Hash;
 
 readonly class AuthService
