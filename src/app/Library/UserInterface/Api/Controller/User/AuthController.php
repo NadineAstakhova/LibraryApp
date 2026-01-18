@@ -11,6 +11,7 @@ use App\Library\UserInterface\Api\Requests\User\LoginRequest;
 use App\Library\UserInterface\Api\Requests\User\RegisterRequest;
 use App\Library\UserInterface\Base\ApiResponseJson;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
@@ -31,7 +32,7 @@ class AuthController extends Controller
 
             return ApiResponseJson::successJsonResponse($result);
         } catch (\Exception $e) {
-            return ApiResponseJson::errorJsonResponse($e->getMessage(), 400);
+            return ApiResponseJson::errorJsonResponse($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -55,7 +56,7 @@ class AuthController extends Controller
                 'expires_in' => $result['expires_in'],
             ]);
         } catch (LoginException $e) {
-            return ApiResponseJson::errorJsonResponse($e->getMessage(), 401);
+            return ApiResponseJson::errorJsonResponse($e->getMessage(), Response::HTTP_UNAUTHORIZED);
         }
     }
 
