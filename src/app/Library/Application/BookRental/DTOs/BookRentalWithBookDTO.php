@@ -4,7 +4,7 @@ namespace App\Library\Application\BookRental\DTOs;
 
 use Carbon\Carbon;
 
-readonly class BookRentalDTO
+readonly class BookRentalWithBookDTO
 {
     public function __construct(
         public int $id,
@@ -19,6 +19,6 @@ readonly class BookRentalDTO
         public int $daysRemaining,
         public bool $canExtend,
         public bool $isOverdue,
-        public ?array $book = null,
+        public array $book,
     ) {}
 }

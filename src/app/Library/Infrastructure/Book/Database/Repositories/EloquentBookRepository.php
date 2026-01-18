@@ -14,6 +14,13 @@ class EloquentBookRepository implements BookRepositoryInterface
         private readonly BookMapper $mapper
     ) {}
 
+    /**
+     * Finds a book by its unique identifier.
+     *
+     * @param int $id The unique identifier of the book to find.
+     *
+     * @return BookEntity|null The book entity if found, or null if no book exists with the specified ID.
+     */
     public function findById(int $id): ?BookEntity
     {
         $bookModel = Book::find($id); //todo maybe Cache?

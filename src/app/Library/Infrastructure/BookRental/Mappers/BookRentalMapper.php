@@ -2,8 +2,9 @@
 
 namespace App\Library\Infrastructure\BookRental\Mappers;
 
-use App\Library\Application\BookRental\DTOs\BookRentalDTO;
+use App\Library\Application\BookRental\DTOs\BookRentalWithBookDTO;
 use App\Library\Application\BookRental\DTOs\RentABookDTO;
+use App\Library\Domain\Book\Entities\Book as BookEntity;
 use App\Library\Domain\BookRental\Entities\BookRental as BookRentalEntity;
 use App\Library\Domain\BookRental\ValueObjects\ReadingProgress;
 use App\Library\Domain\BookRental\ValueObjects\RentalPeriod;
@@ -12,6 +13,11 @@ use App\Library\Infrastructure\BookRental\Database\Models\BookRental as BookRent
 
 class BookRentalMapper
 {
+    /**
+     * @param \App\Library\Application\BookRental\DTOs\RentABookDTO $rentDTO
+     *
+     * @return \App\Library\Domain\BookRental\Entities\BookRental
+     */
     public function fromRentDTOToEntity(RentABookDTO $rentDTO): BookRentalEntity
     {
         return new BookRentalEntity(
@@ -25,25 +31,11 @@ class BookRentalMapper
         );
     }
 
-    public function fromEntityToDTO(BookRentalEntity $entity, ?array $bookData = null): BookRentalDTO
-    {
-        return new BookRentalDTO(
-            id: $entity->getId(),
-            userId: $entity->getUserId(),
-            bookId: $entity->getBookId(),
-            rentedAt: $entity->getRentalPeriod()->getRentedAt(),
-            dueDate: $entity->getRentalPeriod()->getDueDate(),
-            returnedAt: $entity->getRentalPeriod()->getReturnedAt(),
-            status: $entity->getStatus()->getValue(),
-            readingProgress: $entity->getReadingProgress()->getValue(),
-            extensionCount: $entity->getExtensionCount(),
-            daysRemaining: $entity->getRentalPeriod()->daysRemaining(),
-            canExtend: $entity->canExtend(),
-            isOverdue: $entity->getRentalPeriod()->isOverdue(),
-            book: $bookData,
-        );
-    }
-
+    /**
+     * @param \App\Library\Domain\BookRental\Entities\BookRental $bookRentalEntity
+     *
+     * @return \App\Library\Infrastructure\BookRental\Database\Models\BookRental
+     */
     public function fromEntityToModel(BookRentalEntity $bookRentalEntity): BookRentalEloquentModel
     {
         $bookRentalModel = new BookRentalEloquentModel();
@@ -65,6 +57,11 @@ class BookRentalMapper
         return $bookRentalModel;
     }
 
+    /**
+     * @param \App\Library\Infrastructure\BookRental\Database\Models\BookRental $bookRental
+     *
+     * @return \App\Library\Domain\BookRental\Entities\BookRental
+     */
     public function fromModelToEntity(BookRentalEloquentModel $bookRental): BookRentalEntity
     {
         return new BookRentalEntity(
@@ -82,9 +79,49 @@ class BookRentalMapper
         );
     }
 
-    public function toArray(BookRentalEntity $entity): array
+    /**
+     * @param \App\Library\Domain\BookRental\Entities\BookRental $bookRental
+     * @param \App\Library\Domain\Book\Entities\Book $book
+     *
+     * @return \App\Library\Application\BookRental\DTOs\BookRentalWithBookDTO
+     */
+    public function toDTOWithBook(BookRentalEntity $bookRental, BookEntity $book): BookRentalWithBookDTO
+    {
+        return new BookRentalWithBookDTO(
+            id: $bookRental->getId(),
+            userId: $bookRental->getUserId(),
+            bookId: $bookRental->getBookId(),
+            rentedAt: $bookRental->getRentalPeriod()->getRentedAt(),
+            dueDate: $bookRental->getRentalPeriod()->getDueDate(),
+            returnedAt: $bookRental->getRentalPeriod()->getReturnedAt(),
+            status: $bookRental->getStatus()->getValue(),
+            readingProgress: $bookRental->getReadingProgress()->getValue(),
+            extensionCount: $bookRental->getExtensionCount(),
+            daysRemaining: $bookRental->getRentalPeriod()->daysRemaining(),
+            canExtend: $bookRental->canExtend(),
+            isOverdue: $bookRental->getRentalPeriod()->isOverdue(),
+            book: $book->toArray(),
+        );
+    }
+
+    /**
+     * @param \App\Library\Domain\BookRental\Entities\BookRental $entity
+     *
+     * @return array
+     */
+    public function entityToArray(BookRentalEntity $entity): array
     {
         return $entity->toArray();
+    }
+
+    /**
+     * @param \App\Library\Application\BookRental\DTOs\BookRentalWithBookDTO $bookRentalDTO
+     *
+     * @return \App\Library\Application\BookRental\DTOs\BookRentalWithBookDTO[]
+     */
+    public function dtoToArray(BookRentalWithBookDTO $bookRentalDTO): array
+    {
+        return array($bookRentalDTO);
     }
 
 }

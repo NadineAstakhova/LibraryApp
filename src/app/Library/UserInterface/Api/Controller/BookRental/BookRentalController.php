@@ -8,6 +8,7 @@ use App\Library\Application\BookRental\Exceptions\BookNotAvailableForRentExcepti
 use App\Library\Application\BookRental\Services\BookRentalService;
 use App\Library\Application\Exceptions\ActiveRentalExistsException;
 use App\Library\Application\Exceptions\BookNotFoundException;
+use App\Library\Application\Exceptions\RentalNotFoundException;
 use App\Library\UserInterface\Api\Requests\BookRental\RentABookRequest;
 use App\Library\UserInterface\Base\ApiResponseJson;
 use Illuminate\Http\JsonResponse;
@@ -41,6 +42,25 @@ class BookRentalController extends Controller
         } catch (BookNotAvailableForRentException|ActiveRentalExistsException $e) {
             return ApiResponseJson::errorJsonResponse($e->getMessage(), Response::HTTP_CONFLICT);
         } catch (BookNotFoundException $e) {
+            return ApiResponseJson::errorJsonResponse($e->getMessage(), Response::HTTP_NOT_FOUND);
+        }
+
+        return ApiResponseJson::successJsonResponse($rental);
+    }
+
+    /**
+     * Retrieves and displays details of a specific rental.
+     *
+     * @param int $rentalId The unique identifier of the rental to be retrieved.
+     *
+     * @return JsonResponse The JSON response containing the rental details on success,
+     *                      or an error message with the appropriate status code on failure.
+     */
+    public function show(int $rentalId): JsonResponse
+    {
+        try {
+            $rental = $this->rentService->getRental($rentalId, auth('api')->id());
+        } catch (RentalNotFoundException $e) {
             return ApiResponseJson::errorJsonResponse($e->getMessage(), Response::HTTP_NOT_FOUND);
         }
 

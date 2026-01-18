@@ -39,6 +39,13 @@ Route::prefix('v1')->group(function () {
             // Rent a book
             Route::post('/', [BookRentalController::class, 'rent'])
                 ->name('rentals.rent');
+
+            // Actions with a rental
+            Route::prefix('{rentalId}')->group(function () {
+                // Get specific rental details
+                Route::get('/', [BookRentalController::class, 'show'])
+                    ->name('rentals.show');
+            });
         });
 
 
