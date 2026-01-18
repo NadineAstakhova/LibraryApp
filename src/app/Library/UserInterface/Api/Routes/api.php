@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
 
+    //public routes
+    Route::get('/books', [BookController::class, 'index'])
+        ->name('books.index');
+
+    Route::get('/books/{id}', [BookController::class, 'show'])
+        ->name('books.show');
+
     // Authentication Routes
     Route::prefix('auth')->group(function () {
         Route::post('/register', [AuthController::class, 'register'])
@@ -26,8 +33,5 @@ Route::prefix('v1')->group(function () {
 
 
     });
-
-    Route::get('/books', [BookController::class, 'index'])
-        ->name('books.index');
 
 });

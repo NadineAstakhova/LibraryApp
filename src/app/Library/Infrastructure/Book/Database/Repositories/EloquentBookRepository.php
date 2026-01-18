@@ -4,15 +4,21 @@ namespace App\Library\Infrastructure\Book\Database\Repositories;
 
 use App\Library\Domain\Book\Entities\Book as BookEntity;
 use App\Library\Domain\Book\Repositories\BookRepositoryInterface;
+use App\Library\Infrastructure\Book\Database\Mappers\BookMapper;
 use App\Library\Infrastructure\Book\Database\Models\Book;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class EloquentBookRepository implements BookRepositoryInterface
 {
 
+    public function __construct(
+        private readonly BookMapper $mapper
+    ) {}
+
     public function findById(int $id): ?BookEntity
     {
-        // TODO: Implement findById() method.
+        $bookModel = Book::find($id); //todo maybe Cache?
+        return $bookModel ? $this->mapper->fromEloquentModelToEntity($bookModel) : null;
     }
 
     public function search(array $filters, array $sort = [], int $perPage = 15): LengthAwarePaginator

@@ -36,7 +36,6 @@ class UserMapper
 
     public function toModel(UserEntity $entity): EloquentUser
     {
-        var_dump($entity->getId());
         return new EloquentUser(['id' => $entity->getId(), 'name' => $entity->getName(), 'email' => $entity->getEmail(), 'password' => $entity->getPasswordHash()]);
     }
 

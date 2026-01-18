@@ -5,7 +5,8 @@ namespace App\Library\Domain\Book\Entities;
 use App\Library\Domain\Book\ValueObjects\ISBN;
 
 class Book
-{public function __construct(
+{
+    public function __construct(
         private ?int $id,
         private string $title,
         private string $author, //for now only one author. should be separate entity
@@ -110,5 +111,20 @@ class Book
     public function setTotalCopies(int $totalCopies): void
     {
         $this->totalCopies = $totalCopies;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'author' => $this->author,
+            'isbn' => $this->isbn->getValue(),
+            'genre' => $this->genre,
+            'description' => $this->description,
+            'total_copies' => $this->totalCopies,
+            'available_copies' => $this->availableCopies,
+            'publication_year' => $this->publicationYear,
+        ];
     }
 }

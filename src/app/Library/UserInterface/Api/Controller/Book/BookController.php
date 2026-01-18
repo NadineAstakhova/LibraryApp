@@ -5,13 +5,15 @@ namespace App\Library\UserInterface\Api\Controller\Book;
 use App\Http\Controllers\Controller;
 use App\Library\Application\Book\DTOs\SearchBookDTO;
 use App\Library\Application\Book\Services\BookService;
+use App\Library\Infrastructure\Book\Database\Mappers\BookMapper;
 use App\Library\UserInterface\Api\Requests\Book\SearchBookRequest;
+use App\Library\UserInterface\Base\ApiResponseJson;
 use Illuminate\Http\JsonResponse;
 
 class BookController extends Controller
 {
     public function __construct(
-        private BookService $bookService
+        private readonly BookService $bookService
     ) {}
 
     public function index(SearchBookRequest $request): JsonResponse
@@ -27,7 +29,7 @@ class BookController extends Controller
         );
 
         $books = $this->bookService->searchBooks($dto);
-
+//todo
         return response()->json([
             'data' => $books->items(),
             'meta' => [
@@ -37,5 +39,16 @@ class BookController extends Controller
                 'total' => $books->total(),
             ],
         ]);
+    }
+
+    public function show(int $id): JsonResponse
+    {
+        $book = $this->bookService->getBookById($id);
+
+        if (!$book) {
+            return ApiResponseJson::errorJsonResponse('Book not found', 404);
+        }
+
+        return ApiResponseJson::successJsonResponse(BookMapper::toArray($book));
     }
 }

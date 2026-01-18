@@ -3,13 +3,13 @@
 namespace App\Library\UserInterface\Base;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class ApiResponseJson
 {
-    public static function successJsonResponse(string $message, array $data = [], int $code = 200): JsonResponse
+    public static function successJsonResponse(array $data = [], int $code = Response::HTTP_OK): JsonResponse
     {
         return response()->json([
-            'message' => $message,
             'data' => $data,
         ], $code);
     }

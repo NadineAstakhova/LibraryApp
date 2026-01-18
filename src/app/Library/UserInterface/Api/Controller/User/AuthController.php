@@ -29,7 +29,7 @@ class AuthController extends Controller
         try {
             $result = $this->authService->register($userRegisterDto);
 
-            return ApiResponseJson::successJsonResponse('User registered successfully', $result);
+            return ApiResponseJson::successJsonResponse($result);
         } catch (\Exception $e) {
             return ApiResponseJson::errorJsonResponse($e->getMessage(), 400);
         }
@@ -50,7 +50,7 @@ class AuthController extends Controller
         try {
             $result = $this->authService->login($userLoginDto);
 
-            return ApiResponseJson::successJsonResponse('Login successful', [
+            return ApiResponseJson::successJsonResponse([
                 'access_token' => $result['token'],
                 'expires_in' => $result['expires_in'],
             ]);
@@ -66,6 +66,6 @@ class AuthController extends Controller
     {
         $this->authService->logout();
 
-        return ApiResponseJson::successJsonResponse('Successfully logged out');
+        return ApiResponseJson::successJsonResponse(['Successfully logged out']);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Library\Application\Book\Services;
 
 use App\Library\Application\Book\DTOs\SearchBookDTO;
+use App\Library\Domain\Book\Entities\Book as BookEntity;
 use App\Library\Domain\Book\Repositories\BookRepositoryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -30,5 +31,10 @@ class BookService
         }
 
         return $this->bookRepository->search($filters, $sort, $dto->perPage ?? 15);
+    }
+
+    public function getBookById(int $id): ?BookEntity
+    {
+        return $this->bookRepository->findById($id);
     }
 }
