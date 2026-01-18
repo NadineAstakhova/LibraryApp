@@ -4,8 +4,8 @@ namespace App\Library\Infrastructure\Book\Database\Repositories;
 
 use App\Library\Domain\Book\Entities\Book as BookEntity;
 use App\Library\Domain\Book\Repositories\BookRepositoryInterface;
-use App\Library\Infrastructure\Book\Database\Mappers\BookMapper;
 use App\Library\Infrastructure\Book\Database\Models\Book;
+use App\Library\Infrastructure\Book\Mappers\BookMapper;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class EloquentBookRepository implements BookRepositoryInterface

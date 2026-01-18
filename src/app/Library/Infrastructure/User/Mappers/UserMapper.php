@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Library\Infrastructure\User\Database\Mappers;
+namespace App\Library\Infrastructure\User\Mappers;
 
 use App\Library\Application\User\DTOs\RegisterUserDTO;
 use App\Library\Infrastructure\User\Database\Models\User as EloquentUser;

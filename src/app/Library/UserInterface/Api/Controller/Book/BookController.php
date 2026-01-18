@@ -5,7 +5,7 @@ namespace App\Library\UserInterface\Api\Controller\Book;
 use App\Http\Controllers\Controller;
 use App\Library\Application\Book\DTOs\SearchBookDTO;
 use App\Library\Application\Book\Services\BookService;
-use App\Library\Infrastructure\Book\Database\Mappers\BookMapper;
+use App\Library\Infrastructure\Book\Mappers\BookMapper;
 use App\Library\UserInterface\Api\Requests\Book\SearchBookRequest;
 use App\Library\UserInterface\Base\ApiResponseJson;
 use Illuminate\Http\JsonResponse;
@@ -29,7 +29,7 @@ class BookController extends Controller
         );
 
         $books = $this->bookService->searchBooks($dto);
-//todo
+//todo, test
         return response()->json([
             'data' => $books->items(),
             'meta' => [

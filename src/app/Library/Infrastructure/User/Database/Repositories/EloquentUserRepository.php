@@ -4,7 +4,7 @@ namespace App\Library\Infrastructure\User\Database\Repositories;
 
 use App\Library\Domain\User\Entities\User as UserEntity;
 use App\Library\Domain\User\Repositories\UserRepositoryInterface;
-use App\Library\Infrastructure\User\Database\Mappers\UserMapper;
+use App\Library\Infrastructure\User\Mappers\UserMapper;
 use App\Library\Infrastructure\User\Database\Models\User;
 
 class EloquentUserRepository implements UserRepositoryInterface

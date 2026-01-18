@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Library\Infrastructure\Book\Database\Mappers;
+namespace App\Library\Infrastructure\Book\Mappers;
 
 use App\Library\Domain\Book\Entities\Book as BookEntity;
 use App\Library\Domain\Book\ValueObjects\ISBN;
