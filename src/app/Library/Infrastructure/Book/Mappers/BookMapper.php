@@ -23,7 +23,7 @@ class BookMapper
         );
     }
 
-    public static function toArray(BookEntity $entity): array
+    public function toArray(BookEntity $entity): array
     {
         return $entity->toArray();
     }

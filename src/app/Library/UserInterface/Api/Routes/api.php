@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Library\UserInterface\Api\Controller\Book\BookController;
+use App\Library\UserInterface\Api\Controller\BookRental\BookRentalController;
 use App\Library\UserInterface\Api\Controller\User\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,14 +25,22 @@ Route::prefix('v1')->group(function () {
             ->name('auth.login');
     });
 
+    // Protected Routes (Requires Authentication)
     Route::middleware(['jwt.auth'])->group(function () {
+
+        // Auth Routes (Authenticated)
         Route::prefix('auth')->group(function () {
             Route::post('/logout', [AuthController::class, 'logout'])
                 ->name('auth.logout');
         });
 
+        // Book Rental Routes
+        Route::prefix('rentals')->group(function () {
+            // Rent a book
+            Route::post('/', [BookRentalController::class, 'rent'])
+                ->name('rentals.rent');
+        });
 
 
     });
-
 });

@@ -2,10 +2,12 @@
 
 namespace App\Library\Infrastructure\Book\Database\Models;
 
+use App\Library\Infrastructure\BookRental\Database\Models\BookRental;
 use Database\Factories\BookFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -48,6 +50,11 @@ class Book extends Model
             'total_copies' => 'integer',
             'available_copies' => 'integer',
         ];
+    }
+
+    public function bookRentals(): HasMany
+    {
+        return $this->hasMany(BookRental::class);
     }
 
     protected static function newFactory(): BookFactory

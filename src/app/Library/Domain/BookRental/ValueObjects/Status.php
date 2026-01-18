@@ -6,13 +6,14 @@ use DomainException;
 
 class Status
 {
-    public const IN_RENTAL = 'in_rental';
-
-    public const RETURNED = 'returned';
+    public const ACTIVE = 'active';
+    public const COMPLETED = 'completed';
+    public const OVERDUE = 'overdue';
 
     public const ALL = [
-        self::IN_RENTAL,
-        self::RETURNED
+        self::ACTIVE,
+        self::COMPLETED,
+        self::OVERDUE,
     ];
 
     private string $value;
@@ -29,5 +30,20 @@ class Status
     public function getValue(): string
     {
         return $this->value;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->value === self::ACTIVE;
+    }
+
+    public function isCompleted(): bool
+    {
+        return $this->value === self::COMPLETED;
+    }
+
+    public function isOverdue(): bool
+    {
+        return $this->value === self::OVERDUE;
     }
 }

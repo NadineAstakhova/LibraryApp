@@ -2,8 +2,11 @@
 
 namespace App\Library\Infrastructure\User\Database\Models;
 
+use App\Library\Infrastructure\BookRental\Database\Models\BookRental;
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -36,6 +39,11 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
+    public function bookRentals(): HasMany
+    {
+        return $this->hasMany(BookRental::class);
+    }
+
     // JWTSubject methods
     public function getJWTIdentifier(): string
     {
@@ -47,7 +55,7 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    protected static function newFactory(): \Illuminate\Database\Eloquent\Factories\Factory|UserFactory
+    protected static function newFactory(): Factory|UserFactory
     {
         return UserFactory::new();
     }

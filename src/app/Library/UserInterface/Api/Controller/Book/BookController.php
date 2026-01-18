@@ -9,11 +9,13 @@ use App\Library\Infrastructure\Book\Mappers\BookMapper;
 use App\Library\UserInterface\Api\Requests\Book\SearchBookRequest;
 use App\Library\UserInterface\Base\ApiResponseJson;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
     public function __construct(
-        private readonly BookService $bookService
+        private readonly BookService $bookService,
+        private readonly BookMapper $bookMapper
     ) {}
 
     public function index(SearchBookRequest $request): JsonResponse
@@ -46,9 +48,9 @@ class BookController extends Controller
         $book = $this->bookService->getBookById($id);
 
         if (!$book) {
-            return ApiResponseJson::errorJsonResponse('Book not found', 404);
+            return ApiResponseJson::errorJsonResponse('Book not found', Response::HTTP_NOT_FOUND);
         }
 
-        return ApiResponseJson::successJsonResponse(BookMapper::toArray($book));
+        return ApiResponseJson::successJsonResponse($this->bookMapper->toArray($book));
     }
 }

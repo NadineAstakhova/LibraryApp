@@ -10,7 +10,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class EloquentBookRepository implements BookRepositoryInterface
 {
-
     public function __construct(
         private readonly BookMapper $mapper
     ) {}
@@ -69,7 +68,9 @@ class EloquentBookRepository implements BookRepositoryInterface
 
     public function decrementAvailability(int $bookId): void
     {
-        // TODO: Implement decrementAvailability() method.
+        Book::where('id', $bookId)
+            ->where('available_copies', '>', 0)
+            ->decrement('available_copies');
     }
 
     public function incrementAvailability(int $bookId): void
