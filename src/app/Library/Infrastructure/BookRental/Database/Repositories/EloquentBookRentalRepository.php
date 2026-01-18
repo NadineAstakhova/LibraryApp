@@ -35,6 +35,20 @@ class EloquentBookRentalRepository implements BookRentalRepositoryInterface
     }
 
     /**
+     * Retrieves a book rental entity by its unique identifier and associated user ID.
+     *
+     * @param int $id The unique identifier of the book rental record.
+     * @param int $userId The unique identifier of the user associated with the book rental.
+     *
+     * @return BookRentalEntity|null The corresponding book rental entity, or null if no matching record is found.
+     */
+    public function findByIdAndUserEntity(int $id, int $userId): ?BookRentalEntity
+    {
+        $bookRental = $this->findByIdAndUser($id, $userId);
+        return $bookRental ? $this->bookRentalMapper->fromModelToEntity($bookRental) : null;
+    }
+
+    /**
      * Finds a book rental record by its ID and associated user ID, returning the data as a DTO
      * that includes details of the rental and the related book.
      *
@@ -44,14 +58,28 @@ class EloquentBookRentalRepository implements BookRentalRepositoryInterface
      * @return BookRentalWithBookDTO|null Returns a data transfer object containing the book rental and book details,
      *                                    or null if no matching record is found.
      */
-    public function findByIdAndUser(int $id, int $userId): ?BookRentalWithBookDTO
+    public function findByIdAndUserWithBookInfo(int $id, int $userId): ?BookRentalWithBookDTO
     {
-        $bookRental = BookRental::with(['book', 'user'])->where('id', $id)->where('user_id', $userId)->first();
+        $bookRental = $this->findByIdAndUser($id, $userId);
 
         return $bookRental ? $this->bookRentalMapper->toDTOWithBook(
             $this->bookRentalMapper->fromModelToEntity($bookRental),
             $this->bookMapper->fromEloquentModelToEntity($bookRental->book)
         ) : null;
+    }
+
+    /**
+     * @param int $id
+     * @param int $userId
+     *
+     * @return \App\Library\Infrastructure\BookRental\Database\Models\BookRental|null
+     */
+    private function findByIdAndUser(int $id, int $userId): ?BookRental
+    {
+        return BookRental::with(['book', 'user'])
+            ->where('id', $id)
+            ->where('user_id', $userId)
+            ->first();
     }
 
     public function getUserActiveRentals(int $userId): Collection

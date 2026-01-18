@@ -108,4 +108,37 @@ class BookRental
             'extension_count' => $this->extensionCount,
         ];
     }
+
+    /**
+     * Extends the rental period by the specified number of days.
+     *
+     * @param int $days The number of days to extend the rental period. Defaults to the predefined value of DEFAULT_RENTAL_DAYS.
+     *
+     * @return self Returns a new instance of the rental with the updated extension details.
+     * @throws \DomainException If the rental cannot be extended due to exceeding limits or other restrictions.
+     */
+    public function extend(int $days = self::DEFAULT_RENTAL_DAYS): self
+    {
+        if (!$this->canExtend()) {
+            throw new \DomainException(
+                sprintf(
+                    'Cannot extend rental. Status: %s, Extensions: %d/%d, Overdue: %s',
+                    $this->status->getValue(),
+                    $this->extensionCount,
+                    self::MAX_EXTENSIONS,
+                    $this->rentalPeriod->isOverdue() ? 'Yes' : 'No'
+                )
+            );
+        }
+
+        return new self(
+            id: $this->id,
+            userId: $this->userId,
+            bookId: $this->bookId,
+            rentalPeriod: $this->rentalPeriod->extend($days),
+            status: $this->status,
+            readingProgress: $this->readingProgress,
+            extensionCount: $this->extensionCount + 1,
+        );
+    }
 }

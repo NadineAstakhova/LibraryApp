@@ -3,12 +3,14 @@
 namespace App\Library\UserInterface\Api\Controller\BookRental;
 
 use App\Http\Controllers\Controller;
+use App\Library\Application\BookRental\DTOs\ExtendRentalDTO;
 use App\Library\Application\BookRental\DTOs\RentABookDTO;
 use App\Library\Application\BookRental\Exceptions\BookNotAvailableForRentException;
 use App\Library\Application\BookRental\Services\BookRentalService;
 use App\Library\Application\Exceptions\ActiveRentalExistsException;
 use App\Library\Application\Exceptions\BookNotFoundException;
 use App\Library\Application\Exceptions\RentalNotFoundException;
+use App\Library\UserInterface\Api\Requests\BookRental\ExtendRentalRequest;
 use App\Library\UserInterface\Api\Requests\BookRental\RentABookRequest;
 use App\Library\UserInterface\Base\ApiResponseJson;
 use Illuminate\Http\JsonResponse;
@@ -66,4 +68,32 @@ class BookRentalController extends Controller
 
         return ApiResponseJson::successJsonResponse($rental);
     }
+
+    /**
+     * Handles the extension of an existing rental.
+     *
+     * @param ExtendRentalRequest $request The request object containing details for extending the rental,
+     *                                     such as the number of additional days.
+     * @param int $rentalId The unique identifier of the rental to be extended.
+     *
+     * @return JsonResponse The JSON response indicating the outcome of the extension process,
+     *                      which could include success or error details.
+     */
+    public function extend(ExtendRentalRequest $request, int $rentalId): JsonResponse
+    {
+        $dto = new ExtendRentalDTO(
+            userId: auth('api')->id(),
+            extensionDays: $request->integer('days', 14),
+        );
+
+        try {
+            $rental = $this->rentService->extendRental($rentalId, $dto);
+        } catch (RentalNotFoundException $e) {
+            return ApiResponseJson::errorJsonResponse($e->getMessage(), Response::HTTP_NOT_FOUND);
+        }
+
+        return ApiResponseJson::successJsonResponse($rental);
+
+    }
+
 }

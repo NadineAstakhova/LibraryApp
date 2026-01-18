@@ -2,6 +2,7 @@
 
 namespace App\Library\Application\BookRental\Services;
 
+use App\Library\Application\BookRental\DTOs\ExtendRentalDTO;
 use App\Library\Application\BookRental\DTOs\RentABookDTO;
 use App\Library\Application\BookRental\Exceptions\BookNotAvailableForRentException;
 use App\Library\Application\Exceptions\ActiveRentalExistsException;
@@ -67,13 +68,53 @@ class BookRentalService
      */
     public function getRental(int $rentalId, int $userId): array
     {
-        $rentalEntity = $this->rentRepository->findByIdAndUser($rentalId, $userId);
+        $rentalEntity = $this->rentRepository->findByIdAndUserWithBookInfo($rentalId, $userId);
 
         if (!$rentalEntity) {
             throw new RentalNotFoundException("Rental with ID {$rentalId} not found for user ID {$userId}");
         }
 
         return $this->rentMapper->dtoToArray($rentalEntity);
+    }
+
+    /**
+     * Extends the rental period for a given rental entity.
+     *
+     * @param int $rentalId The unique identifier of the rental to be extended.
+     * @param ExtendRentalDTO $dto Data transfer object containing information required for the extension, such as user ID and extension
+     *     days.
+     *
+     * @return array An array representation of the updated rental entity.
+     * @throws \App\Library\Application\Exceptions\RentalNotFoundException
+     */
+    public function extendRental(int $rentalId, ExtendRentalDTO $dto): array
+    {
+        $rentalEntity = $this->findRentalOrFail($rentalId, $dto->userId);
+
+        $extendedEntity = $rentalEntity->extend($dto->extensionDays);
+        $savedEntity = $this->rentRepository->save($extendedEntity);
+
+        return $this->rentMapper->entityToArray($savedEntity);
+    }
+
+    /**
+     * Retrieves a rental entity for a given rental ID and user ID or throws an exception if not found.
+     *
+     * @param int $rentalId The unique identifier of the rental to be retrieved.
+     * @param int $userId The unique identifier of the user associated with the rental.
+     *
+     * @return BookRentalEntity The rental entity associated with the provided rental ID and user ID.
+     * @throws RentalNotFoundException If the rental entity does not exist for the specified rental ID and user ID.
+     */
+    private function findRentalOrFail(int $rentalId, int $userId): BookRentalEntity
+    {
+        $rentalEntity = $this->rentRepository->findByIdAndUserEntity($rentalId, $userId);
+
+        if (!$rentalEntity) {
+            throw new RentalNotFoundException("Rental with ID {$rentalId} not found for user ID {$userId}");
+        }
+
+        return $rentalEntity;
     }
 
 }

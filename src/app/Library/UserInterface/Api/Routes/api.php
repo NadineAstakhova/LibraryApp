@@ -45,6 +45,10 @@ Route::prefix('v1')->group(function () {
                 // Get specific rental details
                 Route::get('/', [BookRentalController::class, 'show'])
                     ->name('rentals.show');
+
+                // Extend rental period
+                Route::post('/extend', [BookRentalController::class, 'extend'])
+                    ->name('rentals.extend');
             });
         });
 

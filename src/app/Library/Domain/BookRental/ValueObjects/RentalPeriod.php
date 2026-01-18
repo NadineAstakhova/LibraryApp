@@ -52,4 +52,13 @@ class RentalPeriod
             dueDate: now()->addDays($days),
         );
     }
+
+    public function extend(int $days): self
+    {
+        return new self(
+            rentedAt: $this->rentedAt,
+            dueDate: $this->dueDate->copy()->addDays($days),
+            returnedAt: $this->returnedAt,
+        );
+    }
 }
