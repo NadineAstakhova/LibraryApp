@@ -416,7 +416,7 @@ class BookRentalServiceTest extends TestCase
             id: 1, 
             userId: 1, 
             bookId: 5, 
-            status: Status::COMPLETED, 
+            status: Status::RETURNED,
             readingProgress: 100
         );
         $expectedArray = ['id' => 1, 'status' => 'completed', 'reading_progress' => 100];
@@ -519,7 +519,7 @@ class BookRentalServiceTest extends TestCase
             id: 1, 
             userId: 1, 
             bookId: 5, 
-            status: Status::COMPLETED, 
+            status: Status::RETURNED,
             readingProgress: 100
         );
 

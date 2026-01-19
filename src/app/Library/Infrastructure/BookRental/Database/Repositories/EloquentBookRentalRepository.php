@@ -93,11 +93,11 @@ class EloquentBookRentalRepository implements BookRentalRepositoryInterface
     {
         $bookRentalModel = BookRental::findOrFail($rentalId);
         
-        if ($bookRentalModel->status === Status::COMPLETED) {
+        if ($bookRentalModel->status === Status::RETURNED) {
             throw new \DomainException('This rental has already been returned');
         }
         
-        $bookRentalModel->status = Status::COMPLETED;
+        $bookRentalModel->status = Status::RETURNED;
         $bookRentalModel->returned_at = now();
         $bookRentalModel->reading_progress = 100;
         $bookRentalModel->save();

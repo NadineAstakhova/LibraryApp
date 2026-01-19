@@ -48,7 +48,7 @@ class BookRentalFactory extends Factory
     public function completed(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status' => Status::COMPLETED,
+            'status' => Status::RETURNED,
             'returned_at' => now(),
             'reading_progress' => 100,
         ]);

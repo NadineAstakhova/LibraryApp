@@ -7,12 +7,12 @@ use DomainException;
 class Status
 {
     public const ACTIVE = 'active';
-    public const COMPLETED = 'completed';
+    public const RETURNED = 'returned';
     public const OVERDUE = 'overdue';
 
     public const ALL = [
         self::ACTIVE,
-        self::COMPLETED,
+        self::RETURNED,
         self::OVERDUE,
     ];
 
@@ -39,7 +39,7 @@ class Status
 
     public function isCompleted(): bool
     {
-        return $this->value === self::COMPLETED;
+        return $this->value === self::RETURNED;
     }
 
     public function isOverdue(): bool
