@@ -22,7 +22,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"email\": \"test.test@example.com\",\n    \"name\": \"Test Test\",\n    \"password\": \"password\",\n    \"password_confirmation\": \"password\"\n\n}",
+          "raw": "{\n    \"email\": \"test.teswt@example.com\",\n    \"name\": \"Test Test\",\n    \"password\": \"password\",\n    \"password_confirmation\": \"password\"\n\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -502,6 +502,41 @@
             "rentals",
             "1",
             "progress"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "RentReturn",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{host}}v1/rentals/1/return",
+          "host": [
+            "{{host}}v1"
+          ],
+          "path": [
+            "rentals",
+            "1",
+            "return"
           ]
         }
       },
