@@ -19,6 +19,7 @@ class BookMapper
             description: $book->description,
             totalCopies: $book->total_copies,
             availableCopies: $book->available_copies,
+            version: $book->version ?? 1,
             publicationYear: $book->publication_year,
         );
     }

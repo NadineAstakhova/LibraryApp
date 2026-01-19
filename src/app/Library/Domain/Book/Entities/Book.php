@@ -15,7 +15,8 @@ class Book
         private ?string $description,
         private int $totalCopies,
         private int $availableCopies,
-        private ?int $publicationYear,
+        private int $version = 1,
+        private ?int $publicationYear = null,
     ) {}
 
     public function getId(): ?int
@@ -61,6 +62,11 @@ class Book
     public function getPublicationYear(): ?int
     {
         return $this->publicationYear;
+    }
+
+    public function getVersion(): int
+    {
+        return $this->version;
     }
 
     public function setId(int $id): void
@@ -113,6 +119,11 @@ class Book
         $this->totalCopies = $totalCopies;
     }
 
+    public function setVersion(int $version): void
+    {
+        $this->version = $version;
+    }
+
     public function toArray(): array
     {
         return [
@@ -124,6 +135,7 @@ class Book
             'description' => $this->description,
             'total_copies' => $this->totalCopies,
             'available_copies' => $this->availableCopies,
+            'version' => $this->version,
             'publication_year' => $this->publicationYear,
         ];
     }

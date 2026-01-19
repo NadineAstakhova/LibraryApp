@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $description
  * @property int $total_copies
  * @property int $available_copies
+ * @property int $version
  * @property int|null $publication_year
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -40,6 +41,7 @@ class Book extends Model
         'description',
         'total_copies',
         'available_copies',
+        'version',
         'publication_year',
     ];
 
@@ -49,6 +51,7 @@ class Book extends Model
             'publication_year' => 'integer',
             'total_copies' => 'integer',
             'available_copies' => 'integer',
+            'version' => 'integer',
         ];
     }
 

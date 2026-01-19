@@ -8,9 +8,10 @@ readonly class SearchBookDTO
         public ?string $title = null,
         public ?string $author = null,
         public ?string $genre = null,
-        public ?bool $availableOnly = null,
-        public ?string $sortBy = null,
-        public ?string $sortDirection = 'asc',
-        public ?int $perPage = 15,
+        public bool $availableOnly = false,
+        public ?string $sortBy = 'title',
+        public string $sortDirection = 'asc',
+        public int $perPage = 15,
+        public int $page = 1,
     ) {}
 }

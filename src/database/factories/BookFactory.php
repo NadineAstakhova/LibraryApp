@@ -21,6 +21,7 @@ class BookFactory extends Factory
             'description' => fake()->paragraph(),
             'total_copies' => $totalCopies,
             'available_copies' => $totalCopies,
+            'version' => 1,
             'publication_year' => fake()->numberBetween(1950, 2024),
         ];
     }
