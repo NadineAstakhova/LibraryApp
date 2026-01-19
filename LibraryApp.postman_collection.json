@@ -30,15 +30,11 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8000/api/v1/auth/register",
-          "protocol": "http",
+          "raw": "{{host}}v1/auth/register",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "auth",
             "register"
           ]
@@ -68,15 +64,11 @@
           }
         ],
         "url": {
-          "raw": "http://localhost:8000/api/v1/auth/logout",
-          "protocol": "http",
+          "raw": "{{host}}v1/auth/logout",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "auth",
             "logout"
           ]
@@ -124,15 +116,11 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8000/api/v1/auth/login",
-          "protocol": "http",
+          "raw": "{{host}}v1/auth/login",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "auth",
             "login"
           ]
@@ -162,15 +150,11 @@
           }
         ],
         "url": {
-          "raw": "http://localhost:8000/api/v1/auth/refresh",
-          "protocol": "http",
+          "raw": "{{host}}v1/auth/refresh",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "auth",
             "refresh"
           ]
@@ -200,15 +184,11 @@
           }
         ],
         "url": {
-          "raw": "http://localhost:8000/api/v1/auth/me",
-          "protocol": "http",
+          "raw": "{{host}}v1/auth/me",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "auth",
             "me"
           ]
@@ -247,15 +227,11 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8000/api/v1/auth/profile",
-          "protocol": "http",
+          "raw": "{{host}}v1/auth/profile",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "auth",
             "profile"
           ]
@@ -294,15 +270,11 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8000/api/v1/auth/password",
-          "protocol": "http",
+          "raw": "{{host}}v1/auth/password",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "auth",
             "password"
           ]
@@ -325,15 +297,11 @@
           }
         ],
         "url": {
-          "raw": "http://localhost:8000/api/v1/books",
-          "protocol": "http",
+          "raw": "{{host}}v1/books",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "books"
           ],
           "query": [
@@ -363,15 +331,11 @@
           }
         ],
         "url": {
-          "raw": "http://localhost:8000/api/v1/books/2",
-          "protocol": "http",
+          "raw": "{{host}}v1/books/2",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "books",
             "2"
           ]
@@ -410,15 +374,11 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8000/api/v1/rentals",
-          "protocol": "http",
+          "raw": "{{host}}v1/rentals",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "rentals"
           ]
         }
@@ -447,15 +407,11 @@
           }
         ],
         "url": {
-          "raw": "http://localhost:8000/api/v1/rentals/1",
-          "protocol": "http",
+          "raw": "{{host}}v1/rentals/1",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "rentals",
             "1"
           ]
@@ -494,15 +450,11 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8000/api/v1/rentals/1/extend",
-          "protocol": "http",
+          "raw": "{{host}}v1/rentals/1/extend",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "rentals",
             "1",
             "extend"
@@ -542,17 +494,13 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8000/api/v1/rentals/2/progress",
-          "protocol": "http",
+          "raw": "{{host}}v1/rentals/1/progress",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "rentals",
-            "2",
+            "1",
             "progress"
           ]
         }
@@ -606,15 +554,11 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8000/api/v1/auth/login",
-          "protocol": "http",
+          "raw": "{{host}}v1/auth/login",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "auth",
             "login"
           ]
@@ -653,15 +597,11 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8000/api/v1/books",
-          "protocol": "http",
+          "raw": "{{host}}v1/books",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "books"
           ]
         }
@@ -699,15 +639,11 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8000/api/v1/books/23",
-          "protocol": "http",
+          "raw": "{{host}}v1/books/23",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "books",
             "23"
           ]
@@ -746,15 +682,11 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8000/api/v1/books/23",
-          "protocol": "http",
+          "raw": "{{host}}v1/books/23",
           "host": [
-            "localhost"
+            "{{host}}v1"
           ],
-          "port": "8000",
           "path": [
-            "api",
-            "v1",
             "books",
             "23"
           ]
