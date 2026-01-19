@@ -132,6 +132,12 @@
       <path value="$PROJECT_DIR$/src/vendor/staabm/side-effects-detector" />
       <path value="$PROJECT_DIR$/src/vendor/nesbot/carbon" />
       <path value="$PROJECT_DIR$/src/vendor/ramsey/collection" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/type-info" />
+      <path value="$PROJECT_DIR$/src/vendor/phpstan/phpdoc-parser" />
+      <path value="$PROJECT_DIR$/src/vendor/radebatz/type-info-extras" />
+      <path value="$PROJECT_DIR$/src/vendor/darkaonline/l5-swagger" />
+      <path value="$PROJECT_DIR$/src/vendor/zircote/swagger-php" />
+      <path value="$PROJECT_DIR$/src/vendor/swagger-api/swagger-ui" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

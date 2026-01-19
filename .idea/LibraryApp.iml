@@ -122,6 +122,12 @@
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/tymon/jwt-auth" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/voku/portable-ascii" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/darkaonline/l5-swagger" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/phpstan/phpdoc-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/radebatz/type-info-extras" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/swagger-api/swagger-ui" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/symfony/type-info" />
+      <excludeFolder url="file://$MODULE_DIR$/src/vendor/zircote/swagger-php" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
