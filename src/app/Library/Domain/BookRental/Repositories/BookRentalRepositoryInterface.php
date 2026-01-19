@@ -4,6 +4,7 @@ namespace App\Library\Domain\BookRental\Repositories;
 
 use App\Library\Domain\BookRental\Entities\BookRental as BookRentalEntity;
 use App\Library\Domain\BookRental\ValueObjects\ReadingProgress;
+use App\Library\Domain\BookRental\ValueObjects\RentalPeriod;
 
 interface BookRentalRepositoryInterface
 {
@@ -27,6 +28,14 @@ interface BookRentalRepositoryInterface
      * @return BookRentalEntity The updated entity
      */
     public function updateReadingProgress(int $rentalId, ReadingProgress $progress): BookRentalEntity;
+
+    /**
+     * @param int $rentalId
+     * @param \App\Library\Domain\BookRental\ValueObjects\RentalPeriod $period
+     *
+     * @return \App\Library\Domain\BookRental\Entities\BookRental
+     */
+    public function extendRental(int $rentalId, RentalPeriod $period): BookRentalEntity;
 
     /**
      * @param int $rentalId The rental ID

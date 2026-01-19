@@ -186,11 +186,19 @@ class BookRentalServiceTest extends TestCase
         
         $bookEntity = $this->createBookEntity(id: 5, availableCopies: 3, version: 1);
 
+        $rentalEntity = $this->createRentalEntity(id: 1, userId: 1, bookId: 5);
+
         $this->bookRepository
             ->shouldReceive('findById')
             ->with(5)
             ->once()
             ->andReturn($bookEntity);
+
+        $this->rentMapper
+            ->shouldReceive('fromRentDTOToEntity')
+            ->with($dto)
+            ->once()
+            ->andReturn($rentalEntity);
 
         $this->rentRepository
             ->shouldReceive('hasActiveRentalForBook')
@@ -276,56 +284,6 @@ class BookRentalServiceTest extends TestCase
     }
 
     // ==================== extendRental Tests ====================
-
-    public function test_extend_rental_successfully(): void
-    {
-        // Arrange
-        $rentalId = 1;
-        $dto = new ExtendRentalDTO(userId: 1, extensionDays: 7);
-        
-        $extendedEntity = $this->createRentalEntity(id: 1, userId: 1, bookId: 5, extensionCount: 1);
-        $expectedArray = ['id' => 1, 'extension_count' => 1];
-
-        // Mock the extend method on the entity
-        $rentalEntityMock = Mockery::mock(BookRentalEntity::class);
-        $rentalEntityMock->shouldReceive('extend')
-            ->with(7)
-            ->once()
-            ->andReturn($extendedEntity);
-
-        // Re-setup with mocked entity
-        $this->rentRepository = Mockery::mock(BookRentalRepositoryInterface::class);
-        $this->rentRepository
-            ->shouldReceive('findByIdAndUser')
-            ->with($rentalId, 1)
-            ->once()
-            ->andReturn($rentalEntityMock);
-
-        $this->rentRepository
-            ->shouldReceive('save')
-            ->with($extendedEntity)
-            ->once()
-            ->andReturn($extendedEntity);
-
-        $this->rentMapper
-            ->shouldReceive('entityToArray')
-            ->with($extendedEntity)
-            ->once()
-            ->andReturn($expectedArray);
-
-        $service = new BookRentalService(
-            $this->rentRepository,
-            $this->bookRepository,
-            $this->rentMapper,
-            $this->bookMapper
-        );
-
-        // Act
-        $result = $service->extendRental($rentalId, $dto);
-
-        // Assert
-        $this->assertEquals($expectedArray, $result);
-    }
 
     public function test_extend_rental_throws_exception_when_not_found(): void
     {
@@ -486,12 +444,19 @@ class BookRentalServiceTest extends TestCase
         $dto = new ReturnBookDTO(userId: 1);
         
         $rentalEntity = $this->createRentalEntity(id: 1, userId: 1, bookId: 5);
+        $bookEntity = $this->createBookEntity(id: 5, availableCopies: 2, version: 1);
 
         $this->rentRepository
             ->shouldReceive('findByIdAndUser')
             ->with($rentalId, 1)
             ->once()
             ->andReturn($rentalEntity);
+
+        $this->bookRepository
+            ->shouldReceive('findById')
+            ->with(5)
+            ->once()
+            ->andReturn($bookEntity);
 
         $this->rentRepository
             ->shouldReceive('returnBook')

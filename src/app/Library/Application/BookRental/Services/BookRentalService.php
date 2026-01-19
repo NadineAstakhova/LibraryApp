@@ -39,40 +39,45 @@ class BookRentalService
      */
     public function rentBook(RentABookDTO $dto): array
     {
-        return DB::transaction(function () use ($dto) {
-            $bookEntity = $this->bookRepository->findById($dto->bookId);
+        $bookEntity = $this->bookRepository->findById($dto->bookId);
 
-            if (!$bookEntity) {
-                throw new BookNotFoundException('Book not found');
-            }
+        if (!$bookEntity) {
+            throw new BookNotFoundException('Book not found');
+        }
 
-            if (!$bookEntity->isAvailable()) {
-                throw new BookNotAvailableForRentException('Book is currently unavailable');
-            }
+        if (!$bookEntity->isAvailable()) {
+            throw new BookNotAvailableForRentException('Book is currently unavailable');
+        }
 
-            // Check for existing active rental
-            if ($this->rentRepository->hasActiveRentalForBook($dto->userId, $dto->bookId)) {
-                throw new ActiveRentalExistsException('You already have an active rental for this book');
-            }
+        // Check for existing active rental
+        if ($this->rentRepository->hasActiveRentalForBook($dto->userId, $dto->bookId)) {
+            throw new ActiveRentalExistsException('You already have an active rental for this book');
+        }
+
+        $version = $bookEntity->getVersion();
+        $bookId = $dto->bookId;
+
+        $rentalEntity = $this->rentMapper->fromRentDTOToEntity($dto);
+
+        $savedEntity = DB::transaction(function () use ($bookId, $version, $rentalEntity) {
 
             $success = $this->bookRepository->decrementAvailabilityWithLock(
-                $dto->bookId,
-                $bookEntity->getVersion()
+                $bookId,
+                $version
             );
 
             if (!$success) {
                 throw new OptimisticLockException(
                     'Book',
-                    $dto->bookId,
-                    $bookEntity->getVersion()
+                    $bookId,
+                    $version
                 );
             }
 
-            $rentalEntity = $this->rentMapper->fromRentDTOToEntity($dto);
-            $savedEntity = $this->rentRepository->save($rentalEntity);
-
-            return $this->rentMapper->entityToArray($savedEntity);
+            return $this->rentRepository->save($rentalEntity);
         });
+
+        return $this->rentMapper->entityToArray($savedEntity);
     }
 
     /**
@@ -112,14 +117,12 @@ class BookRentalService
      */
     public function extendRental(int $rentalId, ExtendRentalDTO $dto): array
     {
-        return DB::transaction(function () use ($rentalId, $dto) {
-            $rentalEntity = $this->findRentalOrFail($rentalId, $dto->userId);
+        $rentalEntity = $this->findRentalOrFail($rentalId, $dto->userId);
 
-            $extendedEntity = $rentalEntity->extend($dto->extensionDays);
-            $savedEntity = $this->rentRepository->save($extendedEntity);
+        $newPeriod = $rentalEntity->getRentalPeriod()->extend($dto->extensionDays);
+        $updatedEntity = $this->rentRepository->extendRental($rentalId, $newPeriod);
 
-            return $this->rentMapper->entityToArray($savedEntity);
-        });
+        return $this->rentMapper->entityToArray($updatedEntity);
     }
 
     /**
@@ -132,7 +135,7 @@ class BookRentalService
      */
     public function updateReadingProgress(int $rentalId, UpdateReadingProgressDTO $dto): array
     {
-        $this->findRentalOrFail($rentalId, $dto->userId);
+        $rentalEntity = $this->findRentalOrFail($rentalId, $dto->userId);
 
         $newProgress = new ReadingProgress($dto->progress);
         $updatedEntity = $this->rentRepository->updateReadingProgress($rentalId, $newProgress);
@@ -155,32 +158,38 @@ class BookRentalService
      */
     public function returnBook(int $rentalId, ReturnBookDTO $dto): array
     {
-        return DB::transaction(function () use ($rentalId, $dto) {
-            $rentalEntity = $this->findRentalOrFail($rentalId, $dto->userId);
+        $rentalEntity = $this->findRentalOrFail($rentalId, $dto->userId);
 
+        $bookId = $rentalEntity->getBookId();
+
+        $bookEntity = $this->bookRepository->findById($bookId);
+
+        if (!$bookEntity) {
+            throw new BookNotFoundException('Book not found');
+        }
+
+        $version = $bookEntity->getVersion();
+
+        $updatedEntity = DB::transaction(function () use ($rentalId, $dto, $bookId, $version) {
             $updatedEntity = $this->rentRepository->returnBook($rentalId);
 
-            $bookEntity = $this->bookRepository->findById($rentalEntity->getBookId());
-            
-            if (!$bookEntity) {
-                throw new BookNotFoundException('Book not found');
-            }
-
             $success = $this->bookRepository->incrementAvailabilityWithLock(
-                $rentalEntity->getBookId(),
-                $bookEntity->getVersion()
+                $bookId,
+                $version
             );
 
             if (!$success) {
                 throw new OptimisticLockException(
                     'Book',
-                    $rentalEntity->getBookId(),
-                    $bookEntity->getVersion()
+                    $bookId,
+                    $version
                 );
             }
 
-            return $this->rentMapper->entityToArray($updatedEntity);
+            return $updatedEntity;
         });
+
+        return $this->rentMapper->entityToArray($updatedEntity);
     }
 
     /**

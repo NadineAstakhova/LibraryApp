@@ -16,14 +16,4 @@ class ReadingProgress
     {
         return $this->value;
     }
-
-    public function isComplete(): bool
-    {
-        return $this->value === 100;
-    }
-
-    public function increment(int $amount): self
-    {
-        return new self(min(100, $this->value + $amount));
-    }
 }

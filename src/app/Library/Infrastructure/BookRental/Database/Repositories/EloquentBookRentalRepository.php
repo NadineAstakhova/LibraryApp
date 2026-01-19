@@ -5,6 +5,7 @@ namespace App\Library\Infrastructure\BookRental\Database\Repositories;
 use App\Library\Domain\BookRental\Entities\BookRental as BookRentalEntity;
 use App\Library\Domain\BookRental\Repositories\BookRentalRepositoryInterface;
 use App\Library\Domain\BookRental\ValueObjects\ReadingProgress;
+use App\Library\Domain\BookRental\ValueObjects\RentalPeriod;
 use App\Library\Domain\BookRental\ValueObjects\Status;
 use App\Library\Infrastructure\BookRental\Database\Models\BookRental;
 use App\Library\Infrastructure\BookRental\Mappers\BookRentalMapper;
@@ -76,6 +77,23 @@ class EloquentBookRentalRepository implements BookRentalRepositoryInterface
         $bookRentalModel = BookRental::findOrFail($rentalId);
         
         $bookRentalModel->reading_progress = $progress->getValue();
+        $bookRentalModel->save();
+
+        return $this->bookRentalMapper->fromModelToEntity($bookRentalModel->fresh());
+    }
+
+    /**
+     * @param int $rentalId
+     * @param \App\Library\Domain\BookRental\ValueObjects\RentalPeriod $period
+     *
+     * @return \App\Library\Domain\BookRental\Entities\BookRental
+     */
+    public function extendRental(int $rentalId, RentalPeriod $period): BookRentalEntity
+    {
+        $bookRentalModel = BookRental::findOrFail($rentalId);
+
+        $bookRentalModel->due_date = $period->getDueDate();
+        $bookRentalModel->extension_count = $bookRentalModel->extension_count + 1;
         $bookRentalModel->save();
 
         return $this->bookRentalMapper->fromModelToEntity($bookRentalModel->fresh());
