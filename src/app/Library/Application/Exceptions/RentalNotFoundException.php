@@ -2,7 +2,12 @@
 
 namespace App\Library\Application\Exceptions;
 
-class RentalNotFoundException extends \Exception
-{
+use Exception;
 
+class RentalNotFoundException extends Exception
+{
+    public function __construct(string $message = 'Rental not found')
+    {
+        parent::__construct($message, 404);
+    }
 }
