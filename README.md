@@ -6,7 +6,6 @@ A RESTful API backend for a library management system built with Laravel 12 and 
 
 - [Background & Architecture Decision](#background--architecture-decision)
 - [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
 - [Setup Instructions](#setup-instructions)
 - [Database Structure](#database-structure)
 - [API Documentation](#api-documentation)
@@ -106,14 +105,6 @@ src/app/Library/
 
 - **API Base URL**: `http://localhost:8000/api/v1`
 - **Swagger Documentation**: `http://localhost:8000/api/documentation`
-
-### Tests
-
-```bash
-
-# Run tests
-docker-compose exec app php artisan test
-```
 
 ### Docker Services
 
@@ -224,6 +215,8 @@ The Swagger documentation provides:
 ---
 
 ## API Endpoints
+
+P.S. Find Postman collection in `LibraryApp.postman_collection.json`. Check if env vars are set correctly.
 
 ### Authentication
 
@@ -377,7 +370,7 @@ docker-compose exec app php artisan test --filter=AuthServiceTest
 
 ### Integration Tests
 
-> **Note**: Integration tests are planned but not yet implemented. They would cover:
+> **Note**: Also would be cool to implement the Integration Test. They would cover:
 > - Full API endpoint testing with database
 > - Authentication flow testing
 > - Rental workflow testing
@@ -392,7 +385,7 @@ docker-compose exec app php artisan test --filter=AuthServiceTest
 **Trade-off**: DDD adds complexity for a relatively simple CRUD application.
 
 **Reasoning**: 
-- Required by project specifications
+- Valued by project specifications
 - Provides excellent separation of concerns
 - Makes the codebase highly testable
 - Prepares for future scalability
@@ -444,38 +437,42 @@ docker-compose exec app php artisan test --filter=AuthServiceTest
 
 ### High Priority
 
-1. **Elasticsearch Integration for Books**
+1. **Performance Optimizations**
+    - Database query optimization
+    - Eager loading improvements
+    - Response compression
+    - CDN for static assets
+
+2. **Elasticsearch Integration for Books**
    - Full-text search with relevance scoring
    - Faceted search (by genre, author, year)
    - Autocomplete suggestions
    - Better performance for large catalogs
 
-2. **Caching Layer**
+3. **Caching Layer**
    - Redis caching for frequently accessed books
-   - Cache invalidation on updates
    - Query result caching
-   - Session caching for JWT blacklist
 
-3. **Integration Tests**
+4. **Integration Tests**
    - Full API endpoint testing
    - Database transaction testing
    - Authentication flow testing
 
 ### Admin Features
 
-4. **Rental Management**
+5. **Rental Management**
    - View all active rentals
    - Override rental periods
    - Handle overdue rentals
    - Send reminder notifications
 
-5. **User Management**
+6. **User Management**
    - List all users
    - Activate/deactivate accounts
    - Change user roles
    - View user rental history
 
-6. **Statistics Dashboard**
+7. **Statistics Dashboard**
    - Most popular books
    - Active rentals count
    - Overdue rentals
@@ -484,34 +481,9 @@ docker-compose exec app php artisan test --filter=AuthServiceTest
 
 ### Additional Improvements
 
-7. **Notifications**
-   - Email notifications for due dates
-   - Overdue reminders
-   - New book arrivals
-
-8. **Book Reservations**
-   - Reserve unavailable books
-   - Notification when available
-   - Reservation queue management
-
-9. **Reviews & Ratings**
-   - User book reviews
-   - Star ratings
-   - Review moderation
-
-10. **API Versioning**
-    - Support multiple API versions
-    - Deprecation notices
-    - Migration guides
-
-11. **Performance Optimizations**
-    - Database query optimization
-    - Eager loading improvements
-    - Response compression
-    - CDN for static assets
-
-12. **Security Enhancements**
+8. **Security Enhancements**
     - Two-factor authentication
     - Password policies
     - Audit logging
     - IP-based rate limiting
+    - Server Rate limit
