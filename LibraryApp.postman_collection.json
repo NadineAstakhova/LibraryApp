@@ -62,12 +62,6 @@
         "method": "POST",
         "header": [
           {
-            "key": "Authorization",
-            "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL3YxL2F1dGgvbG9naW4iLCJpYXQiOjE3Njg2ODMwMTQsImV4cCI6MTc2ODY4NjYxNCwibmJmIjoxNzY4NjgzMDE0LCJqdGkiOiJscXJ3S0FiUjhVNlNLcVE2Iiwic3ViIjoiMzYiLCJwcnYiOiIxZDY0YTJkMzE2MzYxMDhmMzcyY2FhNzJjMjU3NjM0NmUzMDdiNjcwIn0.Q9WHeW1Ratbof0P6Ht2XQh6463gEx0iP49ssh1oykic",
-            "type": "text",
-            "disabled": true
-          },
-          {
             "key": "Accept",
             "value": "application/json",
             "type": "text"
@@ -324,12 +318,6 @@
         },
         "method": "GET",
         "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL3YxL2F1dGgvbG9naW4iLCJpYXQiOjE3Njg3NTU4NjMsImV4cCI6MTc2ODc1OTQ2MywibmJmIjoxNzY4NzU1ODYzLCJqdGkiOiIzeDBKSVpNWUtKclJUZ0RjIiwic3ViIjoiMiIsInBydiI6ImE4M2Q3MjYxZjRhOTkzOWZkYzlmMmFmNDY2MGU2YjNhNzQyNmIxZDEifQ.wbfk4tvADT_XJPnk8opahr3-GHXLIz_ud-HI54XY9sM",
-            "type": "text",
-            "disabled": true
-          },
           {
             "key": "Accept",
             "value": "application/json",
