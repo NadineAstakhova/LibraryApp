@@ -74,14 +74,6 @@ readonly class BookSearchCriteria
         return $this->page;
     }
 
-    public function hasFilters(): bool
-    {
-        return $this->title !== null
-            || $this->author !== null
-            || $this->genre !== null
-            || $this->availableOnly;
-    }
-
     public function hasTitleFilter(): bool
     {
         return $this->title !== null && $this->title !== '';
