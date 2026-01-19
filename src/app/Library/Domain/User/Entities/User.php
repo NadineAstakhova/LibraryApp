@@ -2,6 +2,7 @@
 
 namespace App\Library\Domain\User\Entities;
 
+use App\Library\Domain\User\ValueObjects\Role;
 use DateTimeImmutable;
 
 class User
@@ -10,7 +11,7 @@ class User
     private string $name;
     private string $email;
     private string $passwordHash;
-    private string $role;
+    private Role $role;
     private ?DateTimeImmutable $createdAt;
     private ?DateTimeImmutable $updatedAt;
 
@@ -19,7 +20,7 @@ class User
         string $name,
         string $email,
         string $passwordHash = '',
-        string $role = 'user',
+        Role|string $role = Role::USER,
         ?DateTimeImmutable $createdAt = null,
         ?DateTimeImmutable $updatedAt = null
     ) {
@@ -27,12 +28,12 @@ class User
         $this->name = $name;
         $this->email = $email;
         $this->passwordHash = $passwordHash;
-        $this->role = $role;
+        $this->role = $role instanceof Role ? $role : Role::fromString($role);
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
     }
 
-    // Factory-style helpers could be in a separate Factory class (see factory file).
+    // Factory-style helpers could be in a separate Factory class.
     public function getId(): ?int
     {
         return $this->id;
@@ -56,17 +57,32 @@ class User
         return $this->email;
     }
 
-    /**
-     * Return hashed password (the domain keeps the hash, not the plain password).
-     */
     public function getPasswordHash(): string
     {
         return $this->passwordHash;
     }
 
-    public function getRole(): string
+    public function getRole(): Role
     {
         return $this->role;
+    }
+
+    public function getRoleValue(): string
+    {
+        return $this->role->value;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role->isAdmin();
+    }
+
+    /**
+     * Check if the user has regular user role.
+     */
+    public function isUser(): bool
+    {
+        return $this->role->isUser();
     }
 
     public function getCreatedAt(): ?DateTimeImmutable
@@ -77,6 +93,11 @@ class User
     public function setCreatedAt(DateTimeImmutable $dt): void
     {
         $this->createdAt = $dt;
+    }
+
+    public function getUpdatedAt(): ?DateTimeImmutable
+    {
+        return $this->updatedAt;
     }
 
     public function setUpdatedAt(DateTimeImmutable $dt): void
@@ -91,7 +112,7 @@ class User
             'name' => $this->name,
             'email' => $this->email,
             'password_hash' => $this->passwordHash,
-            'role' => $this->role,
+            'role' => $this->role->value,
             'created_at' => $this->createdAt?->format(DATE_ATOM),
             'updated_at' => $this->updatedAt?->format(DATE_ATOM),
         ];
