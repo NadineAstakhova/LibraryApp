@@ -36,8 +36,6 @@ The **Domain-Driven Design (DDD)** architecture was implemented primarily due to
 4. **Testability** - Clear boundaries between layers make unit testing straightforward
 5. **Maintainability** - Separation of concerns makes the codebase easier to understand
 
-> **Honest Assessment**: For a simple library application, a standard Laravel MVC structure would be sufficient and faster to develop. DDD adds complexity that may not be justified for small-scale projects. However, it demonstrates architectural knowledge and prepares the codebase for potential growth.
-
 ### Architecture Layers
 
 ```
@@ -139,61 +137,6 @@ src/app/Library/
                                                     │ deleted_at      │
                                                     └─────────────────┘
 ```
-
-### Tables
-
-#### `users`
-| Column | Type | Description |
-|--------|------|-------------|
-| id | BIGINT | Primary key |
-| name | VARCHAR(255) | User's full name |
-| email | VARCHAR(255) | Unique email address |
-| password | VARCHAR(255) | Hashed password |
-| role | ENUM('user', 'admin') | User role (default: 'user') |
-| email_verified_at | TIMESTAMP | Email verification timestamp |
-| remember_token | VARCHAR(100) | Remember me token |
-| created_at | TIMESTAMP | Creation timestamp |
-| updated_at | TIMESTAMP | Last update timestamp |
-| deleted_at | TIMESTAMP | Soft delete timestamp |
-
-#### `books`
-| Column | Type | Description |
-|--------|------|-------------|
-| id | BIGINT | Primary key |
-| title | VARCHAR(255) | Book title |
-| author | VARCHAR(255) | Author name |
-| isbn | VARCHAR(255) | Unique ISBN |
-| genre | VARCHAR(255) | Book genre |
-| description | TEXT | Book description (nullable) |
-| total_copies | INT | Total number of copies |
-| available_copies | INT | Currently available copies |
-| version | BIGINT | Optimistic locking version |
-| publication_year | YEAR | Year of publication (nullable) |
-| created_at | TIMESTAMP | Creation timestamp |
-| updated_at | TIMESTAMP | Last update timestamp |
-| deleted_at | TIMESTAMP | Soft delete timestamp |
-
-#### `book_rents`
-| Column | Type | Description |
-|--------|------|-------------|
-| id | BIGINT | Primary key |
-| user_id | BIGINT | Foreign key to users |
-| book_id | BIGINT | Foreign key to books |
-| rented_at | TIMESTAMP | Rental start date |
-| due_date | TIMESTAMP | Expected return date |
-| returned_at | TIMESTAMP | Actual return date (nullable) |
-| status | ENUM('active', 'returned', 'overdue') | Rental status |
-| reading_progress | INT | Reading progress (0-100%) |
-| extension_count | INT | Number of extensions |
-| created_at | TIMESTAMP | Creation timestamp |
-| updated_at | TIMESTAMP | Last update timestamp |
-
-### Indexes
-
-- `users`: email (unique)
-- `books`: isbn (unique), title, author, genre, (available_copies, title)
-- `book_rents`: (user_id, status), (book_id, status), due_date
-
 ---
 
 ## API Documentation
